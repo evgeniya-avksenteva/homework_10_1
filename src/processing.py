@@ -14,4 +14,12 @@ def filter_by_state(list_dict: list, state: str = 'EXECUTED') -> list:
             new_list_dict.append(item_list)
     return new_list_dict
 
-#print(filter_by_state(list_dict))
+
+def sort_by_date(list_dict: list, sort: bool = True) -> list:
+    """ Функция возвращает новый список, отсортированный по дате """
+    sorted_list_dict = sorted(list_dict, key=lambda i: i["date"], reverse=sort)
+    return sorted_list_dict
+
+
+print(filter_by_state(list_dict))
+print(sort_by_date(list_dict))
