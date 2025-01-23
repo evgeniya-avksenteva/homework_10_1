@@ -6,3 +6,7 @@
 # print(mask_account_card("Счет 73654108430135874305"))
 # print(get_date("2024-03-11T02:26:18.671407"))
 
+from src.processing import data_list, filter_by_state, sort_by_date
+
+print(filter_by_state(data_list))
+print(sort_by_date(data_list))
