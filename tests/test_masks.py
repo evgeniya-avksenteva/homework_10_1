@@ -1,19 +1,16 @@
-import pytest
 from src.masks import get_mask_card_number, get_mask_account
 
+import pytest
 
 def test_get_mask_card_number ():
     assert get_mask_card_number('7000792289606361') == "7000 79** **** 6361"
 
 
+def test_invalid_card_number():
+    with pytest.raises(ValueError) as exc_info:
+        get_mask_card_number('70007922896063610')
+    assert str(exc_info.value) == "Номер карты состоит из 16 цифр"
 
 
 def test_get_mask_account():
     assert get_mask_account('73654108430135874305') == "**4305"
-
-
-
-
-
-# @pytest.mark.parametrize
-# @pytest.fixture
