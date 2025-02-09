@@ -8,6 +8,7 @@ if __name__ == "__main__":
 
 @pytest.fixture
 def transactions_1() -> str:
+    """Тестирование функции на корректную фильтрацию транзакций по заданной валюте"""
     return [
         {
             "id": 939719570,
@@ -103,32 +104,9 @@ def test_filter_by_currency(transactions_1: list[dict[str]]) -> None:
     }
 
 
-@pytest.mark.parametrize(
-    "start, stop, card_number",
-    [
-        (
-            1,
-            5,
-            [
-                "0000 0000 0000 0001",
-                "0000 0000 0000 0002",
-                "0000 0000 0000 0003",
-                "0000 0000 0000 0004",
-                "0000 0000 0000 0005",
-            ],
-        )
-    ],
-)
-def test_card_number_generator(start, stop, card_number) -> None:
-    result = []
-    for i in card_number_generator(start, stop):
-        result.append(i)
-    print(result)
-    assert result == card_number
-
-
 @pytest.fixture
 def transactions_2() -> str:
+    """Тестирование, чтобы функция возвращала корректные описания для каждой транзакции"""
     return [
         {
             "id": 939719570,
@@ -200,3 +178,28 @@ def test_transaction_descriptions(transactions_2: list[dict]) -> str:
     assert next(generator) == "Перевод со счета на счет"
     assert next(generator) == "Перевод с карты на карту"
     assert next(generator) == "Перевод организации"
+
+
+@pytest.mark.parametrize(
+    "start, stop, card_number",
+    [
+        (
+            1,
+            5,
+            [
+                "0000 0000 0000 0001",
+                "0000 0000 0000 0002",
+                "0000 0000 0000 0003",
+                "0000 0000 0000 0004",
+                "0000 0000 0000 0005",
+            ],
+        )
+    ],
+)
+def test_card_number_generator(start, stop, card_number) -> None:
+    """Тестирование, которое проверяет, что генератор выдает правильные номера карт в заданном диапазоне"""
+    result = []
+    for i in card_number_generator(start, stop):
+        result.append(i)
+    print(result)
+    assert result == card_number
