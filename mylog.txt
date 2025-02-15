@@ -1,0 +1,28 @@
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function error: my_function() missing 2 required positional arguments: 'x' and 'y'. Inputs:(), {}
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function error: my_function() missing 2 required positional arguments: 'x' and 'y'. Inputs:(), {}
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function error: my_function() missing 2 required positional arguments: 'x' and 'y'. Inputs:(), {}
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
+my_function called with args: (1, 2), kwargs:{}. Result: 3
