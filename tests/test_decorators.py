@@ -5,7 +5,7 @@ from src.decorators import log
 
 def test_log(capsys):
     @log(filename="test_log.txt")
-    def my_function(x, y):
+    def my_function(x: str, y: str) -> str:
         """Тестирует корректное выполнение функции"""
         return x + y
 
@@ -20,17 +20,33 @@ def test_log(capsys):
         assert "my function error: " in captured.out
 
 
-def test_log_good_file_log(capsys):
+def test_log_2() -> None:
     """Тестирует запись в файл после успешного выполнения"""
     with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-        log_path = tmp_file.name
+        log_2 = tmp_file.name
 
-    @log(filename=log_path)
-    def func(x, y):
+    @log(filename=log_2)
+    def func(x: str, y: str) -> str:
         return x + y
 
     func(1, 2)
-    with open(log_path, "r", encoding="utf-8") as file:
+    with open(log_2, "r", encoding="utf-8") as file:
         logs = file.read()
 
     assert "func called with args: (1, 2), kwargs:{}. Result: 3" in logs
+
+
+def test_log_3() -> None:
+    """Тестирует запись в файл после ошибки"""
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        log_3 = tmp_file.name
+
+    @log(filename=log_3)
+    def func(x: str, y: str) -> str:
+        return x + y
+
+    func(1, "2")
+    with open(log_3, "r", encoding="utf-8") as file:
+        logs = file.read()
+
+    assert "func error: unsupported operand type(s) for +: 'int' and 'str'. Inputs:(1, '2'), {}" in logs

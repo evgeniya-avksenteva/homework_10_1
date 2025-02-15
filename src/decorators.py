@@ -5,6 +5,7 @@ from typing import Any, Callable
 def log(filename: Any) -> Callable:
     """Декоратор логирует начало и конец функции,
     а также ее результаты или возникшие ошибки"""
+
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -27,6 +28,7 @@ def log(filename: Any) -> Callable:
 
 @log(filename="mylog.txt")
 def my_function(x: str, y: str) -> str:
+    """Функция принимает значения и складывает их"""
     return x + y
 
 
