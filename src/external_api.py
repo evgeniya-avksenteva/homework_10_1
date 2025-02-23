@@ -2,14 +2,13 @@ import os
 from dotenv import load_dotenv
 import requests
 
-
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
 
 
 def currency_conversion(transaction: dict) -> float:
-    """ Функция конвертации """
+    """Функция конвертации"""
     headers = {"apikey": API_KEY}
     amout = transaction["operationAmount"]["amount"]
     code = transaction["operationAmount"]["currency"]["code"]

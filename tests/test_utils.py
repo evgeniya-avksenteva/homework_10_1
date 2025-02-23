@@ -28,15 +28,11 @@ def trans():
         "id": 441945886,
         "state": "EXECUTED",
         "date": "2019-08-26T10:50:58.294041",
-        "operationAmount": {
-            "amount": "31957.58",
-            "currency": {
-                "name": "руб.",
-                "code": "RUB"}
-        },
+        "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}},
         "description": "Перевод организации",
         "from": "Maestro 1596837868705199",
-        "to": "Счет 64686473678894779589"}
+        "to": "Счет 64686473678894779589",
+    }
 
 
 @pytest.fixture
@@ -45,19 +41,15 @@ def trans_1():
         "id": 441945886,
         "state": "EXECUTED",
         "date": "2019-08-26T10:50:58.294041",
-        "operationAmount": {
-            "amount": "31957.58",
-            "currency": {
-                "name": "руб.",
-                "code": "USD"}
-        },
+        "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "USD"}},
         "description": "Перевод организации",
         "from": "Maestro 1596837868705199",
-        "to": "Счет 64686473678894779589"}
+        "to": "Счет 64686473678894779589",
+    }
 
 
 def test_financial_transactions_nofile():
-    assert financial_transactions('nofile') == []
+    assert financial_transactions("nofile") == []
 
 
 def test_financial_transactions(path):
@@ -65,14 +57,11 @@ def test_financial_transactions(path):
         "id": 441945886,
         "state": "EXECUTED",
         "date": "2019-08-26T10:50:58.294041",
-        "operationAmount": {
-            "amount": "31957.58",
-            "currency": {
-                "name": "руб.",
-                "code": "RUB"}},
+        "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}},
         "description": "Перевод организации",
         "from": "Maestro 1596837868705199",
-        "to": "Счет 64686473678894779589"}
+        "to": "Счет 64686473678894779589",
+    }
 
 
 def test_financial_transactions_empty_list(path_empty_list):
@@ -84,10 +73,10 @@ def test_financial_transactions_mistake_json(path_mistake_json):
 
 
 def test_transaction_amount(trans):
-    assert transaction_amount(trans) == '31957.58'
+    assert transaction_amount(trans) == "31957.58"
 
 
-@patch('src.utils.currency_conversion')
+@patch("src.utils.currency_conversion")
 def test_transaction_amount_non_rub(mock_currency_conversion, trans_1):
     mock_currency_conversion.return_value = 1000.0
     assert transaction_amount(trans_1) == 1000.0
