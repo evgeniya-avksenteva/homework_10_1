@@ -1,6 +1,7 @@
 import os
-from dotenv import load_dotenv
+
 import requests
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -20,4 +21,5 @@ def currency_conversion(transaction: dict) -> float:
     return round(result["result"], 2)
 
 
-# print(currency_conversion())
+# if __name__ == '__main__':
+# print(currency_conversion()
