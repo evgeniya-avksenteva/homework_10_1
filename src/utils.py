@@ -1,5 +1,4 @@
 import json
-import os.path
 from typing import Any
 
 from src.external_api import currency_conversion
