@@ -8,18 +8,14 @@ from src.external_api import currency_conversion
 def financial_transactions(path: str) -> Any:
     """Функция принимает на вход путь до JSON-файла
     и возвращает список словарей с данными о финансовых транзакциях"""
-    if not os.path.exists(path):
-        return []
-
     try:
         with open(path, "r", encoding="utf-8") as financial_file:
-            try:
-                transactions = json.load(financial_file)
-            except json.JSONDecodeError:  # Ошибка декорирования файла
+            transactions = json.load(financial_file)
+            if not isinstance(transactions, list):  # Файл содержит не список
                 return []
-        if not isinstance(transactions, list):  # Файл содержит не список
-            return []
-        return transactions
+            return transactions
+    except json.JSONDecodeError:  # Ошибка декорирования файла
+        return []
     except FileNotFoundError:  # Файл не найден
         return []
 
