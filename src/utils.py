@@ -1,15 +1,13 @@
 import json
 import logging
-from json import JSONDecodeError
-from stat import filemode
 from typing import Any
 
 from src.external_api import currency_conversion
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler('../logs/utils_log.log', 'w')
-file_formatter = logging.Formatter('%(asctime)s - %(filename)s - %(levelname)s: %(message)s')
+file_handler = logging.FileHandler("../logs/utils_log.log", "w")
+file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
