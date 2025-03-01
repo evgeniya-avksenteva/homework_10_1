@@ -1,6 +1,6 @@
 from collections.abc import Iterator
 
-transactions = [
+transactions_generator = [
     {
         "id": 939719570,
         "state": "EXECUTED",
@@ -64,25 +64,25 @@ transactions = [
 ]
 
 
-def filter_by_currency(transactions: list[dict], currency: str = "USD") -> Iterator[dict]:
+def filter_by_currency(transactions_generator: list[dict], currency: str = "USD") -> Iterator[dict]:
     """Функция принимает список транзакций и возвращает итератор,
     где валюта операции соответствует заданной"""
-    return (item for item in transactions if item["operationAmount"]["currency"]["code"] == currency)
+    return (item for item in transactions_generator if item["operationAmount"]["currency"]["code"] == currency)
 
 
-usd_transactions = filter_by_currency(transactions, "USD")
+usd_transactions = filter_by_currency(transactions_generator, "USD")
 for _ in range(3):
     print(next(usd_transactions))
 
 
-def transaction_descriptions(transactions: list[dict]) -> None:
+def transaction_descriptions(transactions_generator: list[dict]) -> None:
     """Функция принимает список транзакций и возвращает описание
     каждой операции по заданным значениям"""
-    for x in transactions:
+    for x in transactions_generator:
         yield x.get("description")
 
 
-descriptions = transaction_descriptions(transactions)
+descriptions = transaction_descriptions(transactions_generator)
 for _ in range(5):
     print(next(descriptions))
 
