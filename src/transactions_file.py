@@ -1,24 +1,15 @@
-import csv
 import pandas as pd
-from typing import Any, Dict, List
 
 
-def read_transaction_csv(file_csv: str) -> List[Dict[str, Any]]:
-    transactions_csv = []
+def read_transaction_csv(file_csv: str) -> list:
     """Функция считывает финансовые операции из CSV"""
-    try:
-        with open(file_csv, mode="r", encoding="utf-8") as file:
-            reader = csv.DictReader(file, delimiter=";")
-            for row in reader:
-                transactions_csv.append(row)
-        return transactions_csv
-    except Exception:
-        return []
+    reader = pd.read_csv(file_csv, sep=";")
+    return reader.to_dict(orient="records")
 
 
 # if __name__ == "__main__":
-#     result_csv = read_transaction_csv("../data/transactions.csv")
-#     print(result_csv[2])
+#     result_excel = read_transaction_csv("../data/transactions.csv")
+#     print(result_excel)
 
 
 def read_transaction_excel(file_excel: str) -> list:
