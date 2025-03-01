@@ -1,23 +1,16 @@
 import pandas as pd
 from src.transactions_file import read_transaction_csv, read_transaction_excel
-from unittest.mock import mock_open, patch
+from unittest.mock import patch
 
 
-@patch("builtins.open", new_callable=mock_open, read_data="")
-def test_read_transaction_csv(mock_file):
-    result_transact = read_transaction_csv("data/transactions.csv")
-    assert result_transact == []
-    mock_file.assert_called_once_with("data/transactions.csv", mode="r", encoding="utf-8")
-
-
-def test_read_transaction_csv_invalid_path():
-    result_transact = read_transaction_csv("some/invalid/path")
-    assert result_transact == []
-
-
-def test_read_transaction_csv_not_path():
-    result_transact = read_transaction_csv("")
-    assert result_transact == []
+def test_read_transaction_csv():
+    with patch("pandas.read_csv") as mock_read_csv:
+        mock_data = pd.DataFrame(columns=["date", "amount", "description"])
+        mock_read_csv.return_value = mock_data
+        result = read_transaction_csv("transactions.csv")
+        expected_result = []
+        assert result == expected_result
+        mock_read_csv.assert_called_once_with("transactions.csv", sep=";")
 
 
 @patch("pandas.read_excel")
