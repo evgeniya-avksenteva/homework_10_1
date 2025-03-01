@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler("../logs/masks_log.log", "w")
+file_handler = logging.FileHandler("masks_log.log", "w")
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
@@ -27,6 +27,6 @@ def get_mask_account(account_number: str) -> str:
     return f"**{account_number[-4:]}"
 
 
-if __name__ == "__main__":
-    print(get_mask_card_number("7000792289606361"))
-    print(get_mask_account("73654108430135874305"))
+# if __name__ == "__main__":
+#    print(get_mask_card_number("7000792289606361"))
+#    print(get_mask_account("73654108430135874305"))

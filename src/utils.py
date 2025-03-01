@@ -6,7 +6,7 @@ from src.external_api import currency_conversion
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler("../logs/utils_log.log", "w")
+file_handler = logging.FileHandler("utils_log.log", "w")
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
@@ -36,8 +36,8 @@ path_file_test_1 = "../data/test_1.json"
 path_file_test_2 = "../data/test_2.json"
 path_file_operations = "../data/operations.json"
 
-if __name__ == "__main__":
-    print(financial_transactions(path_file_operations))
+# if __name__ == "__main__":
+#    print(financial_transactions(path_file_operations))
 
 
 def transaction_amount(trans: dict, currency: str = "RUB") -> Any:
