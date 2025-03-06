@@ -15,7 +15,7 @@ def filter_by_state(data_list: list, state: str = "EXECUTED") -> list:
         if item_list["state"] == state:
             new_data_list.append(item_list)
     return new_data_list
-
+    #return [i for i in data_list if i.get("state") == state]
 
 def sort_by_date(data_list: list, sort: bool = True) -> list:
     """Функция возвращает новый список, отсортированный по дате"""

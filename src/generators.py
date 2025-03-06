@@ -70,9 +70,9 @@ def filter_by_currency(transactions_generator: list[dict], currency: str = "USD"
     return (item for item in transactions_generator if item["operationAmount"]["currency"]["code"] == currency)
 
 
-usd_transactions = filter_by_currency(transactions_generator, "USD")
-for _ in range(3):
-    print(next(usd_transactions))
+# usd_transactions = filter_by_currency(transactions_generator, "USD")
+# for _ in range(3):
+#    print(next(usd_transactions))
 
 
 def transaction_descriptions(transactions_generator: list[dict]) -> None:
@@ -82,9 +82,9 @@ def transaction_descriptions(transactions_generator: list[dict]) -> None:
         yield x.get("description")
 
 
-descriptions = transaction_descriptions(transactions_generator)
-for _ in range(5):
-    print(next(descriptions))
+# descriptions = transaction_descriptions(transactions_generator)
+# for _ in range(5):
+#     print(next(descriptions))
 
 
 def card_number_generator(start: int, stop: int) -> str:
@@ -97,5 +97,6 @@ def card_number_generator(start: int, stop: int) -> str:
         yield card_number
 
 
-for card_number in card_number_generator(1, 5):
-    print(card_number)
+# for card_number in card_number_generator(1, 5):
+#    print(card_number)
+
