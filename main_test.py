@@ -189,3 +189,50 @@ if __name__ == "__main__":
 
 
 
+
+
+
+
+#    for filter_type, filter_value in transactions_list.items():
+#       if filter_type == "status":
+#            transactions = filter_by_state(transactions, filter_value)
+#        elif filter_type == "date":
+#            transactions = sort_by_date(transactions, filter_value)
+#        elif filter_type == "currency":
+#            transactions = [
+#                tr
+#                for tr in transactions
+#                if tr.get("operationAmount", {}).get("currency", {}).get("code") == filter_value
+#            ]
+#        elif filter_type == "description":
+#            transactions = search_transactions(transactions, filter_value)
+#
+#    print("Распечатываю итоговый список транзакций...")
+#
+#    if not transactions_list:
+#        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+#        return
+#    else:
+#    # print("Распечатываю итоговый список транзакций...")
+#        print(f"Всего банковских операций в выборке: {len(transactions_list)}")
+
+#    for transaction in transactions_list:
+#        description = transaction.get("description")
+#        if description == "Открытие вклада":
+#            from_ = description
+#        else:
+#            from_ = mask_account_card(transaction.get("from"))
+#
+#        to_ = mask_account_card(transaction.get("to"))
+#        date = get_date(transaction.get("date"))
+#
+#        amount = transaction["operationAmount"]["amount"]
+#        currency = transaction["operationAmount"]["currency"]["name"]
+#
+#        if description == "Открытие вклада":
+#            print(f"{date} {description}\nСчет {to_}\nСумма: {amount} {currency}\n")
+#        else:
+#            print(f"{date} {description}\n{from_} -> {to_}\nСумма: {amount} {currency}\n")
+
+
+

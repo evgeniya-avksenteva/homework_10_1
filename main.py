@@ -26,7 +26,7 @@ def main() -> None:
         user_file_choice = input().strip()
         if user_file_choice == "1":
             print("Выбран JSON-файл.")
-            transactions_list = financial_transactions(os.path.join(os.path.dirname(__file__), "data", "operations.json"))
+            transactions_list = financial_transactions("../data/operations.json")
             break
         elif user_file_choice == "2":
             print("Выбран CSV-файл.")
@@ -39,7 +39,7 @@ def main() -> None:
         else:
             print("Некорректный выбор. Попробуй еще раз.")
             continue
-
+    print(transactions_list)
 
     transactions_list: dict[str, str | bool] = {}
     while True:
@@ -54,6 +54,9 @@ def main() -> None:
             break
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
+
+    print(transactions_list)
+
 
     while True:
         sort_date = input("Отсортировать операции по дате? Да/Нет\n").lower()
@@ -79,6 +82,9 @@ def main() -> None:
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
 
+    print(transactions_list)
+
+
     while True:
         sort_code = str(input("Выводить только рублевые транзакции? Да/Нет\n")).lower()
         if sort_code == "да":
@@ -88,6 +94,9 @@ def main() -> None:
             break
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
+
+    print(transactions_list)
+
 
     while True:
         user_input = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет:\n").lower()
@@ -116,14 +125,16 @@ def main() -> None:
 #        elif filter_type == "description":
 #            transactions = search_transactions(transactions, filter_value)
 #
-#    if not transactions:
+#    print("Распечатываю итоговый список транзакций...")
+#
+#    if not transactions_list:
 #        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
 #        return
-#
-#    print("Распечатываю итоговый список транзакций...")
-#   print(f"Всего банковских операций в выборке: {len(transactions)}")
-#
-#    for transaction in transactions:
+#    else:
+#    # print("Распечатываю итоговый список транзакций...")
+#        print(f"Всего банковских операций в выборке: {len(transactions_list)}")
+
+#    for transaction in transactions_list:
 #        description = transaction.get("description")
 #        if description == "Открытие вклада":
 #            from_ = description
@@ -140,6 +151,7 @@ def main() -> None:
 #            print(f"{date} {description}\nСчет {to_}\nСумма: {amount} {currency}\n")
 #        else:
 #            print(f"{date} {description}\n{from_} -> {to_}\nСумма: {amount} {currency}\n")
+
 
 if __name__ == "__main__":
     main()
