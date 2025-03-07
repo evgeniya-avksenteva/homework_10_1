@@ -64,10 +64,13 @@ transactions_generator = [
 ]
 
 
-def filter_by_currency(transactions_generator: list[dict], currency: str = "USD") -> Iterator[dict]:
+def filter_by_currency(transactions_generator: list[dict], currency: str = "RUB") -> Iterator[dict]:
     """Функция принимает список транзакций и возвращает итератор,
     где валюта операции соответствует заданной"""
-    return (item for item in transactions_generator if item["operationAmount"]["currency"]["code"] == currency)
+    return (
+        item for item in transactions_generator
+        if item.get("operationAmount", {}).get("currency", {}).get("code") == currency
+    )
 
 
 # usd_transactions = filter_by_currency(transactions_generator, "USD")
