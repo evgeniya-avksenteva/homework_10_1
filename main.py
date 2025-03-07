@@ -26,34 +26,35 @@ def main() -> None:
         user_file_choice = input().strip()
         if user_file_choice == "1":
             print("Выбран JSON-файл.")
-            filters = financial_transactions(os.path.join(os.path.dirname(__file__), "data", "operations.json"))
+            transactions_list = financial_transactions(os.path.join(os.path.dirname(__file__), "data", "operations.json"))
             break
         elif user_file_choice == "2":
             print("Выбран CSV-файл.")
-            filters = read_transaction_csv(os.path.join(os.path.dirname(__file__), "data", "transactions.csv"))
+            transactions_list = read_transaction_csv(os.path.join(os.path.dirname(__file__), "data", "transactions.csv"))
             break
         elif user_file_choice == "3":
             print("Выбран XLSX-файл.")
-            filters = os.path.join(os.path.dirname(__file__), "data", "transactions_excel.xlsx")
+            transactions_list = os.path.join(os.path.dirname(__file__), "data", "transactions_excel.xlsx")
             break
         else:
             print("Некорректный выбор. Попробуй еще раз.")
             continue
 
 
-    filters: dict[str, str | bool] = {}
+    transactions_list: dict[str, str | bool] = {}
     while True:
         status = input(
             "Введите статус, по которому необходимо выполнить фильтрацию. "
             "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING:\n"
         ).upper()
         if status in ["CANCELED", "PENDING", "EXECUTED"]:
-            filters["status"] = status
+            # filters - transactions ["status"] = status
+            transactions_list = filter_by_state(transactions_list, status)
             print(f"Операции отфильтрованы по статусу {status}")
             break
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
-            continue
+
     while True:
         sort_date = input("Отсортировать операции по дате? Да/Нет\n").lower()
         if sort_date == "да":
@@ -62,10 +63,12 @@ def main() -> None:
                     """Отсортировать по возрастанию или по убыванию? по возрастанию/по убыванию\n"""
                 ).lower()
                 if sorting_order == "по возрастанию":
-                    filters["date"] = False
+                    # filters["date"] = False
+                    transactions_list = sort_by_date(transactions_list, False)
                     break
                 elif sorting_order == "по убыванию":
-                    filters["date"] = True
+                    transactions_list = sort_by_date(transactions_list, True)
+                    # filters["date"] = True
                     break
                 else:
                     print("Некорректный выбор. Попробуйте еще раз.")
@@ -76,21 +79,23 @@ def main() -> None:
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
             continue
+
     while True:
         sort_code = str(input("Выводить только рублевые транзакции? Да/Нет\n")).lower()
         if sort_code == "да":
-            filters["currency"] = "RUB"
+            transactions_list = filter_by_currency(transactions_list, "RUB")
             break
         elif sort_code == "нет":
             break
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
             continue
+
     while True:
         user_input = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет:\n").lower()
         if user_input == "да":
             search = input("Видите слово для поиска: ")
-            filters["description"] = search
+            transactions_list = search_transactions(transactions_list, user_input)
             break
         elif user_input == "нет":
             break
@@ -98,8 +103,8 @@ def main() -> None:
             print("Некорректный выбор. Попробуйте еще раз.")
             continue
 
-    transactions = filters
-    for filter_type, filter_value in filters.items():
+    transactions = transactions_list
+    for filter_type, filter_value in transactions_list.items():
         if filter_type == "status":
             transactions = filter_by_state(transactions, filter_value)
         elif filter_type == "date":
@@ -133,11 +138,11 @@ def main() -> None:
         amount = transaction["operationAmount"]["amount"]
         currency = transaction["operationAmount"]["currency"]["name"]
 
-
         if description == "Открытие вклада":
             print(f"{date} {description}\nСчет {to_}\nСумма: {amount} {currency}\n")
         else:
             print(f"{date} {description}\n{from_} -> {to_}\nСумма: {amount} {currency}\n")
+
 
 
 if __name__ == "__main__":
