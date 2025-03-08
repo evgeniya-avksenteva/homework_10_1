@@ -26,22 +26,22 @@ def main() -> None:
         user_file_choice = input().strip()
         if user_file_choice == "1":
             print("Выбран JSON-файл.")
-            transactions_list = financial_transactions("../data/operations.json")
+            transactions_list = financial_transactions(os.path.join("data", "operations.json"))
             break
         elif user_file_choice == "2":
             print("Выбран CSV-файл.")
-            transactions_list = read_transaction_csv(os.path.join(os.path.dirname(__file__), "data", "transactions.csv"))
+            transactions_list = read_transaction_csv(os.path.join("data", "transactions.csv"))
             break
         elif user_file_choice == "3":
             print("Выбран XLSX-файл.")
-            transactions_list = os.path.join(os.path.dirname(__file__), "data", "transactions_excel.xlsx")
+            transactions_list = read_transaction_excel(os.path.join("data", "transactions_excel.xlsx"))
             break
         else:
             print("Некорректный выбор. Попробуй еще раз.")
             continue
     print(transactions_list)
 
-    transactions_list: dict[str, str | bool] = {}
+
     while True:
         status = input(
             "Введите статус, по которому необходимо выполнить фильтрацию. "
@@ -111,46 +111,49 @@ def main() -> None:
 
     print(transactions_list)
 
-#    for filter_type, filter_value in transactions_list.items():
-#       if filter_type == "status":
-#            transactions = filter_by_state(transactions, filter_value)
-#        elif filter_type == "date":
-#            transactions = sort_by_date(transactions, filter_value)
-#        elif filter_type == "currency":
-#            transactions = [
-#                tr
-#                for tr in transactions
-#                if tr.get("operationAmount", {}).get("currency", {}).get("code") == filter_value
-#            ]
-#        elif filter_type == "description":
-#            transactions = search_transactions(transactions, filter_value)
-#
-#    print("Распечатываю итоговый список транзакций...")
-#
-#    if not transactions_list:
-#        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
-#        return
-#    else:
-#    # print("Распечатываю итоговый список транзакций...")
-#        print(f"Всего банковских операций в выборке: {len(transactions_list)}")
+    print("Распечатываю итоговый список транзакций...")
 
-#    for transaction in transactions_list:
-#        description = transaction.get("description")
-#        if description == "Открытие вклада":
-#            from_ = description
-#        else:
-#            from_ = mask_account_card(transaction.get("from"))
-#
-#        to_ = mask_account_card(transaction.get("to"))
-#        date = get_date(transaction.get("date"))
-#
-#        amount = transaction["operationAmount"]["amount"]
-#        currency = transaction["operationAmount"]["currency"]["name"]
-#
-#        if description == "Открытие вклада":
-#            print(f"{date} {description}\nСчет {to_}\nСумма: {amount} {currency}\n")
-#        else:
-#            print(f"{date} {description}\n{from_} -> {to_}\nСумма: {amount} {currency}\n")
+
+    for filter_type, filter_value in transactions_list.items():
+        if filter_type == "status":
+            transactions_list = filter_by_state(transactions_list, filter_value)
+        elif filter_type == "date":
+            transactions_list = sort_by_date(transactions_list, filter_value)
+        elif filter_type == "currency":
+            transactions_list = [
+                tr
+                for tr in transactions_list
+                if tr.get("operationAmount", {}).get("currency", {}).get("code") == filter_value
+            ]
+        elif filter_type == "description":
+            transactions_list = search_transactions(transactions_list, filter_value)
+
+    print("Распечатываю итоговый список транзакций...")
+
+    if not transactions_list:
+        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+        return
+    else:
+    # print("Распечатываю итоговый список транзакций...")
+        print(f"Всего банковских операций в выборке: {len(transactions_list)}")
+
+    for transaction in transactions_list:
+        description = transaction.get("description")
+        if description == "Открытие вклада":
+            from_ = description
+        else:
+            from_ = mask_account_card(transaction.get("from"))
+
+        to_ = mask_account_card(transaction.get("to"))
+        date = get_date(transaction.get("date"))
+
+        amount = transaction["operationAmount"]["amount"]
+        currency = transaction["operationAmount"]["currency"]["name"]
+
+        if description == "Открытие вклада":
+            print(f"{date} {description}\nСчет {to_}\nСумма: {amount} {currency}\n")
+        else:
+            print(f"{date} {description}\n{from_} -> {to_}\nСумма: {amount} {currency}\n")
 
 
 if __name__ == "__main__":
