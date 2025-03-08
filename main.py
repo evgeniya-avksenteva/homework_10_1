@@ -88,7 +88,7 @@ def main() -> None:
     while True:
         sort_code = str(input("Выводить только рублевые транзакции? Да/Нет\n")).lower()
         if sort_code == "да":
-            transactions_list = filter_by_currency(transactions_list, "RUB")
+            transactions_list = list(filter_by_currency(transactions_list, "RUB"))
             break
         elif sort_code == "нет":
             break
@@ -102,7 +102,7 @@ def main() -> None:
         user_input = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет:\n").lower()
         if user_input == "да":
             search = input("Видите слово для поиска: ")
-            transactions_list = search_transactions(transactions_list, user_input)
+            transactions_list = search_transactions(transactions_list, search)
             break
         elif user_input == "нет":
             break
@@ -111,33 +111,19 @@ def main() -> None:
 
     print(transactions_list)
 
-    print("Распечатываю итоговый список транзакций...")
-
-
-    for filter_type, filter_value in transactions_list.items():
-        if filter_type == "status":
-            transactions_list = filter_by_state(transactions_list, filter_value)
-        elif filter_type == "date":
-            transactions_list = sort_by_date(transactions_list, filter_value)
-        elif filter_type == "currency":
-            transactions_list = [
-                tr
-                for tr in transactions_list
-                if tr.get("operationAmount", {}).get("currency", {}).get("code") == filter_value
-            ]
-        elif filter_type == "description":
-            transactions_list = search_transactions(transactions_list, filter_value)
+    transactions = list(transactions_list)
 
     print("Распечатываю итоговый список транзакций...")
 
-    if not transactions_list:
+
+    if not transactions:
         print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
         return
     else:
     # print("Распечатываю итоговый список транзакций...")
-        print(f"Всего банковских операций в выборке: {len(transactions_list)}")
+        print(f"Всего банковских операций в выборке: {len(transactions)}")
 
-    for transaction in transactions_list:
+    for transaction in transactions:
         description = transaction.get("description")
         if description == "Открытие вклада":
             from_ = description

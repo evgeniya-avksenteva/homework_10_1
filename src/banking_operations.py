@@ -13,18 +13,18 @@ def search_transactions(file: list[dict], input_user: str) -> list[dict]:
     return new_list
 
 
-def sort_transactions(file: list[dict], category: list) -> dict:
+def sort_transactions(operations: list[dict], categories: list) -> dict:
     """Функция для подсчета количества банковских операций определенного типа"""
     new = []
-    for j in file:
-        if 'description' in j and j['description'] in category:
-            new.append(j['description'])
+    for operation in operations:
+        if 'description' in operation and operation['description'] in categories:
+            new.append(operation['description'])
 
     return Counter(new)
 
 
 
-# if __name__ == "__main__":
+#if __name__ == "__main__":
 #    categories_operations = [
 #        "Перевод организации",
 #        "Перевод с карты на карту",

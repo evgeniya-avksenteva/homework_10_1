@@ -91,8 +91,8 @@ def test_search_transactions(dictionaries):
 
 
 def test_sort_transactions(dictionaries):
-    file = ["Перевод организации", "Перевод со счета на счет", "Перевод с карты на карту"]
-    result = sort_transactions(dictionaries, file)
+    operations = ["Перевод организации", "Перевод со счета на счет", "Перевод с карты на карту"]
+    result = sort_transactions(dictionaries, operations)
     assert result == {
         "Перевод организации": 2,
         "Перевод со счета на счет": 2,
