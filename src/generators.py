@@ -1,6 +1,6 @@
 from collections.abc import Iterator
 
-#transactions_generator = [
+# transactions_generator = [
 #    {
 #        "id": 939719570,
 #        "state": "EXECUTED",
@@ -61,14 +61,15 @@ from collections.abc import Iterator
 #        "from": "Visa Platinum 7000792289606361",
 #        "to": "Счет 74489636417521191160",
 #    },
-#]
+# ]
 
 
 def filter_by_currency(transactions_generator: list[dict], currency: str = "RUB") -> Iterator[dict]:
     """Функция принимает список транзакций и возвращает итератор,
     где валюта операции соответствует заданной"""
     return (
-        item for item in transactions_generator
+        item
+        for item in transactions_generator
         if item.get("operationAmount", {}).get("currency", {}).get("code") == currency
     )
 
@@ -102,4 +103,3 @@ def card_number_generator(start: int, stop: int) -> str:
 
 # for card_number in card_number_generator(1, 5):
 #    print(card_number)
-

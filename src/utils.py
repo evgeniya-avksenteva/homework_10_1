@@ -51,5 +51,5 @@ def transaction_amount(transaction: dict, currency: str = "RUB") -> Any:
     return amount
 
 
-#if __name__ == '__main__':
-#    print(transaction_amount())
+# if __name__ == '__main__':
+#     print(transaction_amount())

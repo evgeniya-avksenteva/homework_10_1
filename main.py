@@ -1,16 +1,11 @@
 import os
-import re
-import pandas as pd
-import csv
-
 
 from src.utils import financial_transactions
 from src.generators import filter_by_currency
 from src.transactions_file import read_transaction_csv, read_transaction_excel
-from src.banking_operations import sort_transactions, search_transactions
+from src.banking_operations import search_transactions
 from src.processing import filter_by_state, sort_by_date
 from src.widget import get_date, mask_account_card
-from tests.test_generators import transactions_1
 
 
 def main() -> None:
@@ -41,14 +36,12 @@ def main() -> None:
             continue
     print(transactions_list)
 
-
     while True:
         status = input(
             "Введите статус, по которому необходимо выполнить фильтрацию. "
             "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING:\n"
         ).upper()
         if status in ["CANCELED", "PENDING", "EXECUTED"]:
-            # filters - transactions ["status"] = status
             transactions_list = filter_by_state(transactions_list, status)
             print(f"Операции отфильтрованы по статусу {status}")
             break
@@ -56,7 +49,6 @@ def main() -> None:
             print("Некорректный выбор. Попробуйте еще раз.")
 
     print(transactions_list)
-
 
     while True:
         sort_date = input("Отсортировать операции по дате? Да/Нет\n").lower()
@@ -66,12 +58,10 @@ def main() -> None:
                     """Отсортировать по возрастанию или по убыванию? по возрастанию/по убыванию\n"""
                 ).lower()
                 if sorting_order == "по возрастанию":
-                    # filters["date"] = False
                     transactions_list = sort_by_date(transactions_list, False)
                     break
                 elif sorting_order == "по убыванию":
                     transactions_list = sort_by_date(transactions_list, True)
-                    # filters["date"] = True
                     break
                 else:
                     print("Некорректный выбор. Попробуйте еще раз.")
@@ -84,7 +74,6 @@ def main() -> None:
 
     print(transactions_list)
 
-
     while True:
         sort_code = str(input("Выводить только рублевые транзакции? Да/Нет\n")).lower()
         if sort_code == "да":
@@ -96,7 +85,6 @@ def main() -> None:
             print("Некорректный выбор. Попробуйте еще раз.")
 
     print(transactions_list)
-
 
     while True:
         user_input = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет:\n").lower()
@@ -115,12 +103,10 @@ def main() -> None:
 
     print("Распечатываю итоговый список транзакций...")
 
-
     if not transactions:
         print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
         return
     else:
-    # print("Распечатываю итоговый список транзакций...")
         print(f"Всего банковских операций в выборке: {len(transactions)}")
 
     for transaction in transactions:
