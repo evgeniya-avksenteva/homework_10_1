@@ -1,10 +1,10 @@
 import os
 
-from src.utils import financial_transactions
-from src.generators import filter_by_currency
-from src.transactions_file import read_transaction_csv, read_transaction_excel
 from src.banking_operations import search_transactions
+from src.generators import filter_by_currency
 from src.processing import filter_by_state, sort_by_date
+from src.transactions_file import read_transaction_csv, read_transaction_excel
+from src.utils import financial_transactions
 from src.widget import get_date, mask_account_card
 
 
@@ -20,35 +20,32 @@ def main() -> None:
         )
         user_file_choice = input().strip()
         if user_file_choice == "1":
-            print("Выбран JSON-файл.")
+            print("Для обработки выбран JSON-файл.")
             transactions_list = financial_transactions(os.path.join("data", "operations.json"))
             break
         elif user_file_choice == "2":
-            print("Выбран CSV-файл.")
+            print("Для обработки выбран CSV-файл.")
             transactions_list = read_transaction_csv(os.path.join("data", "transactions.csv"))
             break
         elif user_file_choice == "3":
-            print("Выбран XLSX-файл.")
+            print("Для обработки выбран XLSX-файл.")
             transactions_list = read_transaction_excel(os.path.join("data", "transactions_excel.xlsx"))
             break
         else:
             print("Некорректный выбор. Попробуй еще раз.")
             continue
-    print(transactions_list)
 
     while True:
         status = input(
-            "Введите статус, по которому необходимо выполнить фильтрацию. "
+            "Введите статус, по которому необходимо выполнить фильтрацию.\n" 
             "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING:\n"
         ).upper()
         if status in ["CANCELED", "PENDING", "EXECUTED"]:
             transactions_list = filter_by_state(transactions_list, status)
-            print(f"Операции отфильтрованы по статусу {status}")
+            print(f'Операции отфильтрованы по статусу "{status}"')
             break
         else:
-            print("Некорректный выбор. Попробуйте еще раз.")
-
-    print(transactions_list)
+            print(f'Статус операции "{status}" недоступен')
 
     while True:
         sort_date = input("Отсортировать операции по дате? Да/Нет\n").lower()
@@ -72,19 +69,18 @@ def main() -> None:
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
 
-    print(transactions_list)
-
     while True:
         sort_code = str(input("Выводить только рублевые транзакции? Да/Нет\n")).lower()
         if sort_code == "да":
-            transactions_list = list(filter_by_currency(transactions_list, "RUB"))
-            break
+            if user_file_choice == "1":
+                transactions_list = list(filter_by_currency(transactions_list, "RUB"))
+            else:
+                transactions_list = list(filter_by_currency(transactions_list, "RUB", False))
+            br
         elif sort_code == "нет":
             break
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
-
-    print(transactions_list)
 
     while True:
         user_input = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет:\n").lower()
@@ -96,8 +92,6 @@ def main() -> None:
             break
         else:
             print("Некорректный выбор. Попробуйте еще раз.")
-
-    print(transactions_list)
 
     transactions = list(transactions_list)
 
@@ -119,8 +113,12 @@ def main() -> None:
         to_ = mask_account_card(transaction.get("to"))
         date = get_date(transaction.get("date"))
 
-        amount = transaction["operationAmount"]["amount"]
-        currency = transaction["operationAmount"]["currency"]["name"]
+        if user_file_choice == "1":
+            amount = transaction["operationAmount"]["amount"]
+            currency = transaction["operationAmount"]["currency"]["name"]
+        else:
+            amount = transaction["amount"]
+            currency = transaction["currency_code"]
 
         if description == "Открытие вклада":
             print(f"{date} {description}\nСчет {to_}\nСумма: {amount} {currency}\n")

@@ -1,6 +1,7 @@
-import re
 import os
+import re
 from collections import Counter
+
 from src.utils import financial_transactions
 
 list_transactions = financial_transactions(os.path.join("../data/operations.json"))
