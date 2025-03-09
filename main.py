@@ -76,7 +76,7 @@ def main() -> None:
                 transactions_list = list(filter_by_currency(transactions_list, "RUB"))
             else:
                 transactions_list = list(filter_by_currency(transactions_list, "RUB", False))
-            br
+            break
         elif sort_code == "нет":
             break
         else:
