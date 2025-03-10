@@ -1,78 +1,85 @@
 from collections.abc import Iterator
 
-transactions_generator = [
-    {
-        "id": 939719570,
-        "state": "EXECUTED",
-        "date": "2018-06-30T02:08:58.425572",
-        "operationAmount": {
-            "amount": "9824.07",
-            "currency": {"name": "USD", "code": "USD"},
-        },
-        "description": "Перевод организации",
-        "from": "Счет 73654108430135874305",
-        "to": "Счет 11776614605963066702",
-    },
-    {
-        "id": 142264268,
-        "state": "EXECUTED",
-        "date": "2019-04-04T23:20:05.206878",
-        "operationAmount": {
-            "amount": "79114.93",
-            "currency": {"name": "USD", "code": "USD"},
-        },
-        "description": "Перевод со счета на счет",
-        "from": "Счет 73654108430135874305",
-        "to": "Счет 75651667383060284188",
-    },
-    {
-        "id": 594226727,
-        "state": "CANCELED",
-        "date": "2018-09-12T21:27:25.241689",
-        "operationAmount": {
-            "amount": "43318.34",
-            "currency": {"name": "RUB", "code": "RUB"},
-        },
-        "description": "Перевод со счета на счет",
-        "from": "Счет 73654108430135874305",
-        "to": "Счет 74489636417521191160",
-    },
-    {
-        "id": 41428829,
-        "state": "EXECUTED",
-        "date": "2019-07-03T18:35:29.512364",
-        "operationAmount": {
-            "amount": "56883.54",
-            "currency": {"name": "USD", "code": "USD"},
-        },
-        "description": "Перевод с карты на карту",
-        "from": "Visa Platinum 7000792289606361",
-        "to": "Visa Classic 8990922113665229",
-    },
-    {
-        "id": 615064591,
-        "state": "CANCELED",
-        "date": "2018-10-14T08:21:33.419441",
-        "operationAmount": {
-            "amount": "67314.70",
-            "currency": {"name": "RUB", "code": "RUB"},
-        },
-        "description": "Перевод организации",
-        "from": "Visa Platinum 7000792289606361",
-        "to": "Счет 74489636417521191160",
-    },
-]
+# transactions_generator = [
+#    {
+#       "id": 939719570,
+#       "state": "EXECUTED",
+#       "date": "2018-06-30T02:08:58.425572",
+#       "operationAmount": {
+#           "amount": "9824.07",
+#           "currency": {"name": "USD", "code": "USD"},
+#       },
+#       "description": "Перевод организации",
+#       "from": "Счет 73654108430135874305",
+#       "to": "Счет 11776614605963066702",
+#    },
+#    {
+#       "id": 142264268,
+#       "state": "EXECUTED",
+#       "date": "2019-04-04T23:20:05.206878",
+#       "operationAmount": {
+#           "amount": "79114.93",
+#           "currency": {"name": "USD", "code": "USD"},
+#       },
+#       "description": "Перевод со счета на счет",
+#       "from": "Счет 73654108430135874305",
+#       "to": "Счет 75651667383060284188",
+#    },
+#    {
+#       "id": 594226727,
+#       "state": "CANCELED",
+#       "date": "2018-09-12T21:27:25.241689",
+#       "operationAmount": {
+#           "amount": "43318.34",
+#           "currency": {"name": "RUB", "code": "RUB"},
+#       },
+#       "description": "Перевод со счета на счет",
+#       "from": "Счет 73654108430135874305",
+#       "to": "Счет 74489636417521191160",
+#    },
+#    {
+#       "id": 41428829,
+#       "state": "EXECUTED",
+#       "date": "2019-07-03T18:35:29.512364",
+#       "operationAmount": {
+#           "amount": "56883.54",
+#           "currency": {"name": "USD", "code": "USD"},
+#       },
+#       "description": "Перевод с карты на карту",
+#       "from": "Visa Platinum 7000792289606361",
+#       "to": "Visa Classic 8990922113665229",
+#    },
+#    {
+#       "id": 615064591,
+#       "state": "CANCELED",
+#       "date": "2018-10-14T08:21:33.419441",
+#       "operationAmount": {
+#           "amount": "67314.70",
+#           "currency": {"name": "RUB", "code": "RUB"},
+#       },
+#       "description": "Перевод организации",
+#       "from": "Visa Platinum 7000792289606361",
+#       "to": "Счет 74489636417521191160",
+#    },
+# ]
 
 
-def filter_by_currency(transactions_generator: list[dict], currency: str = "USD") -> Iterator[dict]:
+def filter_by_currency(transactions_generator: list[dict], currency: str = "RUB", with_json=True) -> Iterator[dict]:
     """Функция принимает список транзакций и возвращает итератор,
     где валюта операции соответствует заданной"""
-    return (item for item in transactions_generator if item["operationAmount"]["currency"]["code"] == currency)
+    if with_json:
+        return (
+            item
+            for item in transactions_generator
+            if item.get("operationAmount", {}).get("currency", {}).get("code") == currency
+        )
+    else:
+        return (item for item in transactions_generator if item.get("currency_code", {}) == currency)
 
 
-usd_transactions = filter_by_currency(transactions_generator, "USD")
-for _ in range(3):
-    print(next(usd_transactions))
+# usd_transactions = filter_by_currency(transactions_generator, "USD")
+# for _ in range(3):
+#     print(next(usd_transactions))
 
 
 def transaction_descriptions(transactions_generator: list[dict]) -> None:
@@ -82,9 +89,9 @@ def transaction_descriptions(transactions_generator: list[dict]) -> None:
         yield x.get("description")
 
 
-descriptions = transaction_descriptions(transactions_generator)
-for _ in range(5):
-    print(next(descriptions))
+# descriptions = transaction_descriptions(transactions_generator)
+# for _ in range(5):
+#     print(next(descriptions))
 
 
 def card_number_generator(start: int, stop: int) -> str:
@@ -97,5 +104,5 @@ def card_number_generator(start: int, stop: int) -> str:
         yield card_number
 
 
-for card_number in card_number_generator(1, 5):
-    print(card_number)
+# for card_number in card_number_generator(1, 5):
+#    print(card_number)

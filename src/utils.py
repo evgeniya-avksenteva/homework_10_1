@@ -40,16 +40,16 @@ path_file_operations = "../data/operations.json"
 #    print(financial_transactions(path_file_operations))
 
 
-def transaction_amount(trans: dict, currency: str = "RUB") -> Any:
+def transaction_amount(transaction: dict, currency: str = "RUB") -> Any:
     """Функция принимает на вход транзакцию и возвращает сумму транзакции в рублях"""
-    if trans["operationAmount"]["currency"]["code"] == currency:
-        amount = trans["operationAmount"]["amount"]
+    if transaction["operationAmount"]["currency"]["code"] == currency:
+        amount = transaction["operationAmount"]["amount"]
         logger.info("Код валюты в транзакции RUB")
     else:
-        amount = currency_conversion(trans)
+        amount = currency_conversion(transaction)
         logger.info("Иной код валюты транзакции, произведена конвертация")
     return amount
 
 
 # if __name__ == '__main__':
-#    print(transaction_amount())
+#     print(transaction_amount())
